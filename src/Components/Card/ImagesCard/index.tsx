@@ -15,7 +15,7 @@ export const ImagesCard:React.FC<ImagesCardsProps>=({images})=>{
             <figure className="relative mb-2 w-full h-3/4 overflow-hidden rounded-t-lg">
                 <img src={images[currentImages]} className="w-full h-full object-cover" alt="title" />
                 <button
-                    className="absolute top-1/2 left-3 flex justify-center items-center bg-white text-black w-6 h-6 rounded-full shadow-md hover:bg-gray-200 transition-colors duration-300"
+                    className="absolute top-1/2 left-3 flex justify-center items-center  text-black w-6 h-6 rounded-full shadow-md hover:bg-gray-200 transition-colors duration-300"
                     aria-label={`Before image`}
                     onClick={()=>handleBeforeImage(currentImages)}
                     disabled={currentImages === 0}
@@ -25,7 +25,7 @@ export const ImagesCard:React.FC<ImagesCardsProps>=({images})=>{
                     </span>
                 </button>
                 <button
-                    className="absolute top-1/2 right-3 flex justify-center items-center bg-white text-black w-6 h-6 rounded-full shadow-md hover:bg-gray-200 transition-colors duration-300"
+                    className="absolute top-1/2 right-3 flex justify-center items-center  text-black w-6 h-6 rounded-full shadow-md hover:bg-gray-200 transition-colors duration-300"
                     aria-label={`Next image`}
                     onClick={()=>handleChangeNextImage(currentImages)}
                     disabled={currentImages === images.length - 1 && images.length > 1}

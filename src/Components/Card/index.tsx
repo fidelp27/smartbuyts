@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { CardProps } from '../../Interfaces';
 import { ImagesCard } from './ImagesCard';
+import { ContextApp } from '../../Context';
 
 export const Card: React.FC<CardProps> = ({ title, price, img, category }) => {
+  const { addToCart } = useContext(ContextApp);
+  const product = { title, price, img, category, qty: 1 };
   return (
     <div className="bg-white cursor-pointer w-64 h-90 rounded-lg hover:shadow-slate-100 transition-shadow duration-500 group">
       <figure className="relative mb-2 w-full h-3/4 overflow-hidden rounded-t-lg">
@@ -17,7 +20,7 @@ export const Card: React.FC<CardProps> = ({ title, price, img, category }) => {
           <span className="text-lg font-semibold text-slate-900">${price}</span>
         </div>        
       </div>
-      <button className="bg-slate-900 text-white w-full py-2 rounded-b-lg hover:bg-slate-800 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100">
+      <button className="bg-slate-900 text-white w-full py-2 rounded-b-lg hover:bg-slate-800 transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100"  onClick={() => addToCart(product)} >
         Add to cart
       </button>
     </div>

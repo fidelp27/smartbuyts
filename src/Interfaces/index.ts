@@ -6,7 +6,10 @@ export interface NavRoute{
 export interface ChildrenProps{
     children: React.ReactNode;
 }
+export interface AsideProps extends ChildrenProps{
+    title: string;
 
+}
 export interface CategoryPrductsProps{
     id: number;
     name: string;
@@ -32,6 +35,24 @@ export interface CardProps extends Pick<ProductProps, 'title' | 'price'> {
     img: string[];
   };
 
+export interface CartProps extends CardProps{
+    qty: number;
+}  
+
 export interface ImagesCardsProps{
     images: string[];
 }
+
+export interface ContextProps{
+    items: ProductProps[];
+    cartItems: CartProps[];
+    addToCart: (item:CartProps) => void;
+    removeFromCart?: (item:CartProps) => void;
+    filteredItems?: ProductProps[];
+    filterItems?: (category:string) => void;
+    totalItemsCart: (items:CartProps[]) => number;
+    totalAmountCart: (items:CartProps[]) => number;
+    openedAside: boolean;
+    handleOpenAside?: () => void;
+}
+
