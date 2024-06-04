@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import {  ChildrenProps, ContextProps, ProductProps, CartProps } from "../Interfaces";
+import {  ChildrenProps, ContextProps, ProductProps, CartProps, CardProps } from "../Interfaces";
 
 
 const defaultProps : ContextProps = {
@@ -13,6 +13,9 @@ const defaultProps : ContextProps = {
     totalAmountCart: ()=> 0,
     openedAside: false,
     handleOpenAside: () => {},
+    handleCloseAside: () => {},
+    productDetail: null,
+    setProductDetail: (item:CardProps) => {}
 }
 export const ContextApp = createContext<ContextProps>(defaultProps);
 
@@ -21,7 +24,7 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
     const [cartItems, setCartItems] = useState<CartProps[]>([]);
     const [filteredItems, setFilteredItems] = useState<ProductProps[]>(items);
     const [openedAside, setOpenedAside] = useState<boolean>(false);
-
+    const [productDetail, setProductDetail] = useState<CardProps | null>(null);
     // Cart logic
     const addToCart = (item: CartProps) => {
         setCartItems((prevCartItems) => {
@@ -52,9 +55,14 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         setFilteredItems(newItems);
     }
     //aside logic
-    const handleOpenAside = () => {
-        setOpenedAside(!openedAside);
+    const handleOpenAside= () => {
+        setOpenedAside(true);
     }
+    const handleCloseAside = () => {
+        setOpenedAside(false);
+    }
+    //Product detail logic
+
     // products logic
     useEffect(() => {
         const getData = async () => {
@@ -64,7 +72,8 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
                 throw new Error("We can't get data from the server");
                 }
                 const data:ProductProps[] = await response.json();
-                setItems(data);                     
+                setItems(data);     
+                                
             }catch(error){
                 console.error(error);
             }
@@ -82,6 +91,9 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         totalAmountCart,
         openedAside,
         handleOpenAside,
+        handleCloseAside,
+        productDetail,
+        setProductDetail
       };
 
     return(

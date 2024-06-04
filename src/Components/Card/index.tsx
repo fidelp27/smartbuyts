@@ -3,14 +3,17 @@ import { CardProps } from '../../Interfaces';
 import { ImagesCard } from './ImagesCard';
 import { ContextApp } from '../../Context';
 
-export const Card: React.FC<CardProps> = ({ title, price, img, category }) => {
-  const { addToCart } = useContext(ContextApp);
-  const product = { title, price, img, category, qty: 1 };
+export const Card: React.FC<CardProps> = ({ title, price, img, category, description }) => {
+  const { addToCart, setProductDetail } = useContext(ContextApp);
+  const product = { title, price, img, category, qty: 1, description };
+  const addProductDetail = () => setProductDetail(product);
   return (
-    <div className="bg-white cursor-pointer w-64 h-90 rounded-lg hover:shadow-slate-100 transition-shadow duration-500 group">
+    <div className="bg-white cursor-pointer w-64 h-90 rounded-lg hover:shadow-slate-100 transition-shadow duration-500 group"
+    onClick={addProductDetail}
+    >
       <figure className="relative mb-2 w-full h-3/4 overflow-hidden rounded-t-lg">
         <ImagesCard images={!img[0].startsWith("[") ? img : ['https://i.imgur.com/fei1sMg.png']}/>
-        <figcaption className="absolute bottom-2 left-2 bg-black/75 text-white text-xs px-2 py-1 rounded">
+        <figcaption className="absolute bottom-5 left-3 bg-black/75 text-white text-xs px-2 py-1 rounded">
           {category}
         </figcaption>
       </figure>

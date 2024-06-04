@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { LiaArrowAltCircleLeft, LiaArrowAltCircleRight } from "react-icons/lia";
 import { ImagesCardsProps } from "../../../Interfaces"
 
@@ -10,6 +10,11 @@ export const ImagesCard:React.FC<ImagesCardsProps>=({images})=>{
     const handleBeforeImage = (index: number)=>{
         setCurrentImages(index - 1)
     }
+    // Reset current image when images change
+    useEffect(()=>{
+        setCurrentImages(0)
+    },[images])
+
     return(
         <div>
             <figure className="relative mb-2 w-full h-3/4 overflow-hidden rounded-t-lg">
