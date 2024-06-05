@@ -21,7 +21,7 @@ const userRoutes: NavRoute[] = [
 
 export const NavBar: React.FC = () => {
   const activeStyle = "underline";
-  const { totalItemsCart, cartItems } = useContext(ContextApp);
+  const { totalItemsCart, cartItems, handleOpenAsideCart } = useContext(ContextApp);
   const totalItems = totalItemsCart(cartItems);
 
   return (
@@ -46,14 +46,11 @@ export const NavBar: React.FC = () => {
             </NavLink>
           </li>
         ))}
-        <li className="relative">
-          <NavLink to="/cart" className={({ isActive }) => (isActive ? activeStyle : "")}>
-            <TiShoppingCart className="text-3xl text-slate-800 mr-1" />
-            <span className="absolute top-4 right-0 bg-red-500 text-white text- rounded-full px-0.5">
-              {totalItems}
-            </span>
-        
-          </NavLink>
+        <li className="relative">          
+          <TiShoppingCart className="text-3xl text-slate-800 mr-1 hover:cursor-pointer" onClick={handleOpenAsideCart}/>
+          <span className="absolute top-4 right-0 bg-red-500 text-white text- rounded-full px-0.5">
+            {totalItems}
+          </span>          
         </li>
       </ul>
     </nav>

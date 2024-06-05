@@ -1,9 +1,9 @@
 // src/Components/ProductDetails/index.tsx
 import React from 'react';
-import { CardProps } from '../../Interfaces';
+import {  ProductDetailsProps } from '../../Interfaces';
 import { ImagesCard } from '../Card/ImagesCard';
 
-export const ProductDetails: React.FC<CardProps> = ({ title, price, description, img, category }) => {
+export const ProductDetails: React.FC<ProductDetailsProps> = ({ title, price, description, img, category }) => {
   return (
     <div className="flex flex-col items-center justify-start w-full h-full p-4">
       <div className="w-full mb-4">

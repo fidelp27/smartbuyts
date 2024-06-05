@@ -32,9 +32,11 @@ export interface ProductProps{
 // uso extends para heredar las propiedades de ProductProps y Pick para seleccionar las propiedades que necesito
 export interface CardProps extends Pick<ProductProps, 'title' | 'price'  | 'description' > {
     category: string;
-    img: string[];
+    img: string[] ;
+    img_card: string;
   };
 
+export interface ProductDetailsProps extends Pick<CardProps, 'title' | 'price' | 'description' | 'category' | 'img'> {}
 
 export interface CartProps extends CardProps{
     qty: number;
@@ -58,5 +60,10 @@ export interface ContextProps{
     handleCloseAside?: () => void;
     productDetail: CardProps | null;
     setProductDetail: (item:CardProps) => void;
+    openedAsideCart: boolean;
+    handleOpenAsideCart: () => void;
 }
 
+export interface CartItemsProps{
+    items: CartProps[];
+}

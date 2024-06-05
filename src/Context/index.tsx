@@ -15,7 +15,9 @@ const defaultProps : ContextProps = {
     handleOpenAside: () => {},
     handleCloseAside: () => {},
     productDetail: null,
-    setProductDetail: (item:CardProps) => {}
+    setProductDetail: (item:CardProps) => {},
+    openedAsideCart: false,
+    handleOpenAsideCart: () => {},
 }
 export const ContextApp = createContext<ContextProps>(defaultProps);
 
@@ -24,7 +26,9 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
     const [cartItems, setCartItems] = useState<CartProps[]>([]);
     const [filteredItems, setFilteredItems] = useState<ProductProps[]>(items);
     const [openedAside, setOpenedAside] = useState<boolean>(false);
+    const [openedAsideCart, setOpenedAsideCart] = useState<boolean>(false);
     const [productDetail, setProductDetail] = useState<CardProps | null>(null);
+    
     // Cart logic
     const addToCart = (item: CartProps) => {
         setCartItems((prevCartItems) => {
@@ -57,12 +61,18 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
     //aside logic
     const handleOpenAside= () => {
         setOpenedAside(true);
+        setOpenedAsideCart(false);
     }
     const handleCloseAside = () => {
         setOpenedAside(false);
+        setOpenedAsideCart(false);
     }
-    //Product detail logic
-
+    //CArt aside logic
+    const handleOpenAsideCart= () => {
+        setOpenedAsideCart(true);
+        setOpenedAside(false);
+    }
+   
     // products logic
     useEffect(() => {
         const getData = async () => {
@@ -72,8 +82,7 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
                 throw new Error("We can't get data from the server");
                 }
                 const data:ProductProps[] = await response.json();
-                setItems(data);     
-                                
+                setItems(data);                                
             }catch(error){
                 console.error(error);
             }
@@ -93,7 +102,9 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         handleOpenAside,
         handleCloseAside,
         productDetail,
-        setProductDetail
+        setProductDetail,
+        openedAsideCart,
+        handleOpenAsideCart
       };
 
     return(
