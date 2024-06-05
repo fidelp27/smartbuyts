@@ -50,7 +50,7 @@ export interface ContextProps{
     items: ProductProps[];
     cartItems: CartProps[];
     addToCart: (item:CartProps) => void;
-    removeFromCart?: (item:CartProps) => void;
+    removeFromCart: (item:CartProps) => void;
     filteredItems?: ProductProps[];
     filterItems?: (category:string) => void;
     totalItemsCart: (items:CartProps[]) => number;
