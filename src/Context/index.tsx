@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import {  ChildrenProps, ContextProps, ProductProps, CartProps, CardProps } from "../Interfaces";
+import {  ChildrenProps, ContextProps, ProductProps, CartProps, CardProps, OrderProps, CartItemsProps } from "../Interfaces";
 
 
 const defaultProps : ContextProps = {
@@ -18,6 +18,7 @@ const defaultProps : ContextProps = {
     setProductDetail: (item:CardProps) => {},
     openedAsideCart: false,
     handleOpenAsideCart: () => {},
+    addOrder: (products:CartProps[], totalAmount: number, totalItems: number) => {},
 }
 export const ContextApp = createContext<ContextProps>(defaultProps);
 
@@ -28,7 +29,7 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
     const [openedAside, setOpenedAside] = useState<boolean>(false);
     const [openedAsideCart, setOpenedAsideCart] = useState<boolean>(false);
     const [productDetail, setProductDetail] = useState<CardProps | null>(null);
-    
+    const [orders, setOrders] = useState<OrderProps[]>([]);
     // Cart logic
     const addToCart = (item: CartProps) => {
         setCartItems((prevCartItems) => {
@@ -67,12 +68,20 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         setOpenedAside(false);
         setOpenedAsideCart(false);
     }
-    //CArt aside logic
+    //Cart aside logic
     const handleOpenAsideCart= () => {
         setOpenedAsideCart(true);
         setOpenedAside(false);
     }
-   
+   // Orders logic
+   const addOrder = (products:CartProps[], totalAmount: number, totalItems: number) => {
+        const newOrder = {id: Math.random().toString(), totalAmount: totalAmount, totalItems: totalItems, createdAt: new Date().toISOString(), items: products};
+        setOrders([...orders, newOrder]);
+        setCartItems([]);
+        
+   }
+   console.log(orders);
+
     // products logic
     useEffect(() => {
         const getData = async () => {
@@ -104,7 +113,8 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         productDetail,
         setProductDetail,
         openedAsideCart,
-        handleOpenAsideCart
+        handleOpenAsideCart,
+        addOrder,
       };
 
     return(

@@ -3,7 +3,7 @@ import './App.css';
 import { AppRoutes } from '../../Routes/AppRoutes';
 import { NavBar } from '../../Components/Navbar';
 import { ContextApp } from '../../Context';
-import { AsideCartItems } from '../AsideCartItems';
+import { AsideCartItems } from '../../Components/AsideCartItems';
 import { LayoutAside } from '../../Components/LayoutAside';
 import { ProductDetails } from '../../Components/ProductDetail';
 /*

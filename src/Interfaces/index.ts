@@ -62,8 +62,19 @@ export interface ContextProps{
     setProductDetail: (item:CardProps) => void;
     openedAsideCart: boolean;
     handleOpenAsideCart: () => void;
+    addOrder: (products:CartProps[], totalAmount: number, totalItems: number) => void;
 }
 
 export interface CartItemsProps{
     items: CartProps[];
 }
+
+export interface OrderProps extends CartItemsProps{
+    id: string;
+    totalAmount: number;
+    totalItems: number;
+    createdAt: string;
+}
+
+
+
