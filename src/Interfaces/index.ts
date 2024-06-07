@@ -63,6 +63,7 @@ export interface ContextProps{
     openedAsideCart: boolean;
     handleOpenAsideCart: () => void;
     addOrder: (products:CartProps[], totalAmount: number, totalItems: number) => void;
+    orders: OrderProps[];
 }
 
 export interface CartItemsProps{

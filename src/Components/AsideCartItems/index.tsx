@@ -36,7 +36,7 @@ export const AsideCartItems: React.FC<CartItemsProps> = ({ items }) => {
       </div>
       <div className="flex justify-center items-center w-full">
         <button className="w-full bg-slate-800 text-white font-semibold px-4 py-2 rounded-lg shadow-md hover:bg-slate-900 transition duration-300 mb-16" 
-        onClick={()=>addOrder(items, totalAmountCart(items), items.length)}>
+        onClick={()=>addOrder(items, totalAmountCart(items), items.length)} disabled={items.length === 0} >
           Checkout
         </button>
       </div>

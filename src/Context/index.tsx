@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import {  ChildrenProps, ContextProps, ProductProps, CartProps, CardProps, OrderProps, CartItemsProps } from "../Interfaces";
-
+import {  ChildrenProps, ContextProps, ProductProps, CartProps, CardProps, OrderProps } from "../Interfaces";
+import { v4 as uuidv4 } from 'uuid';
 
 const defaultProps : ContextProps = {
     items: [],
@@ -19,6 +19,7 @@ const defaultProps : ContextProps = {
     openedAsideCart: false,
     handleOpenAsideCart: () => {},
     addOrder: (products:CartProps[], totalAmount: number, totalItems: number) => {},
+    orders: [],
 }
 export const ContextApp = createContext<ContextProps>(defaultProps);
 
@@ -75,8 +76,10 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
     }
    // Orders logic
    const addOrder = (products:CartProps[], totalAmount: number, totalItems: number) => {
-        const newOrder = {id: Math.random().toString(), totalAmount: totalAmount, totalItems: totalItems, createdAt: new Date().toISOString(), items: products};
+        const newOrder = {id: uuidv4(), totalAmount: totalAmount, totalItems: totalItems, createdAt: new Date().toISOString(), items: products};
         setOrders([...orders, newOrder]);
+        console.log(uuidv4());
+        
         setCartItems([]);
         
    }
@@ -115,6 +118,7 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         openedAsideCart,
         handleOpenAsideCart,
         addOrder,
+        orders,
       };
 
     return(
