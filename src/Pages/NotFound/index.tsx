@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout } from '../../Components/Layout'
+import { Layout } from '../../Components/LayoutProducts'
 
 export const NotFound:React.FC=()=> {
   return (

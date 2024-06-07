@@ -1,8 +1,8 @@
-import React from "react";
-import { TiShoppingCart } from "react-icons/ti";
-
+import React, {useContext} from "react";
+import { TiShoppingCart } from "react-icons/ti"
 import { NavLink } from "react-router-dom";
 import { NavRoute } from "../../Interfaces";
+import {ContextApp} from "../../Context"
 
 const navRoutes: NavRoute[] = [
   { path: "/", label: "SmartBuy" },
@@ -21,6 +21,8 @@ const userRoutes: NavRoute[] = [
 
 export const NavBar: React.FC = () => {
   const activeStyle = "underline";
+  const { totalItemsCart, cartItems, handleOpenAsideCart } = useContext(ContextApp);
+  const totalItems = totalItemsCart(cartItems);
 
   return (
     <nav className="w-full flex justify-between items-center fixed top-0 z-10 py-5 px-8 bg-white shadow-md text-sm font-light">
@@ -44,13 +46,11 @@ export const NavBar: React.FC = () => {
             </NavLink>
           </li>
         ))}
-        <li className="relative">
-          <NavLink to="/cart" className={({ isActive }) => (isActive ? activeStyle : "")}>
-            <TiShoppingCart className="text-3xl text-slate-800 mr-1" />
-            <span className="absolute top-4 right-0 bg-red-500 text-white text- rounded-full px-0.5">
-              0
-            </span>
-          </NavLink>
+        <li className="relative">          
+          <TiShoppingCart className="text-3xl text-slate-800 mr-1 hover:cursor-pointer" onClick={handleOpenAsideCart}/>
+          <span className="absolute top-4 right-0 bg-red-500 text-white text- rounded-full px-0.5">
+            {totalItems}
+          </span>          
         </li>
       </ul>
     </nav>
