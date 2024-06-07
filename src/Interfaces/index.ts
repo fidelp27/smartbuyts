@@ -49,21 +49,25 @@ export interface ImagesCardsProps{
 export interface ContextProps{
     items: ProductProps[];
     cartItems: CartProps[];
-    addToCart: (item:CartProps) => void;
-    removeFromCart: (item:CartProps) => void;
+    addToCart: (item: CartProps) => void;
+    removeFromCart: (item: CartProps) => void;
     filteredItems?: ProductProps[];
-    filterItems?: (category:string) => void;
-    totalItemsCart: (items:CartProps[]) => number;
-    totalAmountCart: (items:CartProps[]) => number;
+    filterItems?: (category: string) => void;
+    totalItemsCart: (items: CartProps[]) => number;
+    totalAmountCart: (items: CartProps[]) => number;
     openedAside: boolean;
     handleOpenAside?: () => void;
     handleCloseAside?: () => void;
     productDetail: CardProps | null;
-    setProductDetail: (item:CardProps) => void;
+    setProductDetail: (item: CardProps) => void;
     openedAsideCart: boolean;
     handleOpenAsideCart: () => void;
-    addOrder: (products:CartProps[], totalAmount: number, totalItems: number) => void;
+    addOrder: (products: CartProps[], totalAmount: number, totalItems: number) => void;
     orders: OrderProps[];
+    openedAsideOrderDetail: boolean;
+    orderDetail: OrderProps | null;
+    setOrderDetail: (order: OrderProps) => void;
+    handleAsideOrderDetail: (order: OrderProps) => void;
 }
 
 export interface CartItemsProps{
@@ -78,4 +82,6 @@ export interface OrderProps extends CartItemsProps{
 }
 
 
-
+export interface OrderListProps{
+    orders: OrderProps[];
+}

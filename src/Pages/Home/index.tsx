@@ -7,9 +7,10 @@ import { LayoutAside } from '../../Components/LayoutAside'
 import { ProductDetails } from '../../Components/ProductDetail'
 
 
+
 export const Home:React.FC=()=> {
   const {items, handleOpenAside, productDetail} = useContext(ContextApp);
-  //&& item.images[0].startsWith("[")
+ 
   return (
     <Layout>
       <h1 className="text-3xl font-semibold text-slate-800 w-full text-center mt-12 mb-6 ">Soy el home</h1>
@@ -37,6 +38,7 @@ export const Home:React.FC=()=> {
         category={productDetail.category} 
       />
         }
+      
     </LayoutAside>
     
     </Layout>
