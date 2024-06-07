@@ -13,7 +13,7 @@ export const AsideCartItems: React.FC<CartItemsProps> = ({ items }) => {
         <div key={product.title} className="flex flex-col items-start justify-start p-4 bg-gray-100 rounded-lg shadow-md mb-4">
         <div className="flex justify-between items-center w-full " >
             <img src={!product.img[0].startsWith("[")?product.img[0]:"https://i.imgur.com/PjwoJeu.jpeg"} alt={product.title} className="w-12 h-12 object-cover rounded-lg" />
-            <h2 className="text-lg w-7 font-semibold text-slate-800 w-2/3">{product.title}</h2>
+            <h2 className="text-lg w-7 font-semibold text-slate-800">{product.title}</h2>
             <MdDelete className="text-red-500 hover:text-red-700 transition duration-300 cursor-pointer" onClick={() => removeFromCart(product)}/>
         </div>
           <div className="flex justify-between w-full text-sm text-gray-700 mb-2 mt-2">

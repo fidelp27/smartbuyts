@@ -20,6 +20,10 @@ const defaultProps : ContextProps = {
     handleOpenAsideCart: () => {},
     addOrder: (products:CartProps[], totalAmount: number, totalItems: number) => {},
     orders: [],
+    openedAsideOrderDetail: false,
+    setOrderDetail: (order: OrderProps) => {},
+    orderDetail: null,
+    handleAsideOrderDetail: (order: OrderProps) => {},
 }
 export const ContextApp = createContext<ContextProps>(defaultProps);
 
@@ -29,8 +33,10 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
     const [filteredItems, setFilteredItems] = useState<ProductProps[]>(items);
     const [openedAside, setOpenedAside] = useState<boolean>(false);
     const [openedAsideCart, setOpenedAsideCart] = useState<boolean>(false);
+    const [openedAsideOrderDetail, setOpenedAsideOrderDetail] = useState<boolean>(false);
     const [productDetail, setProductDetail] = useState<CardProps | null>(null);
     const [orders, setOrders] = useState<OrderProps[]>([]);
+    const [orderDetail, setOrderDetail] = useState<OrderProps | null>(null);
     // Cart logic
     const addToCart = (item: CartProps) => {
         setCartItems((prevCartItems) => {
@@ -68,22 +74,32 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
     const handleCloseAside = () => {
         setOpenedAside(false);
         setOpenedAsideCart(false);
+        setOpenedAsideOrderDetail(false);
     }
     //Cart aside logic
     const handleOpenAsideCart= () => {
         setOpenedAsideCart(true);
         setOpenedAside(false);
+        setOpenedAsideOrderDetail(false);
     }
    // Orders logic
    const addOrder = (products:CartProps[], totalAmount: number, totalItems: number) => {
         const newOrder = {id: uuidv4(), totalAmount: totalAmount, totalItems: totalItems, createdAt: new Date().toISOString(), items: products};
         setOrders([...orders, newOrder]);
         console.log(uuidv4());
-        
+        setOpenedAsideCart(false);
         setCartItems([]);
         
    }
-   console.log(orders);
+   // Order detail logic
+   const handleAsideOrderDetail = (order: OrderProps) => {
+    setOpenedAsideOrderDetail(true);
+    setOrderDetail(order);
+    setOpenedAsideCart(false);
+    setOpenedAside(false);    
+    console.log(order);
+    
+   }
 
     // products logic
     useEffect(() => {
@@ -119,6 +135,10 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         handleOpenAsideCart,
         addOrder,
         orders,
+        handleAsideOrderDetail,
+        openedAsideOrderDetail,
+        setOrderDetail,
+        orderDetail,
       };
 
     return(
