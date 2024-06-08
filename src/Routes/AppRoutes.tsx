@@ -11,6 +11,11 @@ export const AppRoutes: React.FC = ()=>{
   const {orders} = useContext(ContextApp);
     let routes = useRoutes([
       {path: '/', element: <Home />},
+      {path: '/all', element: <Home />},
+      {path: '/clothes', element: <Home />},
+      {path: '/electronics', element: <Home />},
+      {path: '/furniture', element: <Home />},
+      {path: '/others', element: <Home />},
       {path: '/signin', element: <SignIn />},
       {path: '/account', element: <Account />},
       {path: '/orders',element: <Orders orders={orders}/>},      

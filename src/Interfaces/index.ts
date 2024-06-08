@@ -68,6 +68,8 @@ export interface ContextProps{
     orderDetail: OrderProps | null;
     setOrderDetail: (order: OrderProps) => void;
     handleAsideOrderDetail: (order: OrderProps) => void;
+    search: string;
+    setSearch: (value: string) => void;
 }
 
 export interface CartItemsProps{

@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import {  ChildrenProps, ContextProps, ProductProps, CartProps, CardProps, OrderProps } from "../Interfaces";
 import { v4 as uuidv4 } from 'uuid';
+import {useDebounce} from "../CustomHooks";
 
 const defaultProps : ContextProps = {
     items: [],
@@ -24,6 +25,8 @@ const defaultProps : ContextProps = {
     setOrderDetail: (order: OrderProps) => {},
     orderDetail: null,
     handleAsideOrderDetail: (order: OrderProps) => {},
+    search: "",
+    setSearch: () => {}
 }
 export const ContextApp = createContext<ContextProps>(defaultProps);
 
@@ -37,6 +40,8 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
     const [productDetail, setProductDetail] = useState<CardProps | null>(null);
     const [orders, setOrders] = useState<OrderProps[]>([]);
     const [orderDetail, setOrderDetail] = useState<OrderProps | null>(null);
+    const [search, setSearch] = useState<string>("");
+    
     // Cart logic
     const addToCart = (item: CartProps) => {
         setCartItems((prevCartItems) => {
@@ -61,11 +66,22 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         const newCart = cartItems.filter(cartItem => cartItem.title !== item.title);
         setCartItems(newCart);
     }
-
-    const filterItems = (category:string) => {
-        const newItems = items.filter(item => item.category.name === category);
+    // Filter logic
+    const filterItems = (category:string) => {        
+        if(category === "") return setFilteredItems(items);
+        const newItems = items.filter(item => {
+            if(category ==="Others"){
+                const categories = ["Electronics", "Clothes", "Furniture"]
+                return !categories.includes(item.category.name)
+            }
+            return item.category.name === category;
+        });
         setFilteredItems(newItems);
     }
+    
+    const debouncedSearch = useDebounce(search, 500);
+    
+    
     //aside logic
     const handleOpenAside= () => {
         setOpenedAside(true);
@@ -86,19 +102,15 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
    const addOrder = (products:CartProps[], totalAmount: number, totalItems: number) => {
         const newOrder = {id: uuidv4(), totalAmount: totalAmount, totalItems: totalItems, createdAt: new Date().toISOString(), items: products};
         setOrders([...orders, newOrder]);
-        console.log(uuidv4());
         setOpenedAsideCart(false);
-        setCartItems([]);
-        
+        setCartItems([]);        
    }
    // Order detail logic
    const handleAsideOrderDetail = (order: OrderProps) => {
     setOpenedAsideOrderDetail(true);
     setOrderDetail(order);
     setOpenedAsideCart(false);
-    setOpenedAside(false);    
-    console.log(order);
-    
+    setOpenedAside(false);        
    }
 
     // products logic
@@ -117,6 +129,15 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         }
         getData();
     },[])
+
+    useEffect(() => {
+        if (debouncedSearch.length > 0) {
+            setFilteredItems(items.filter(item => item.title.toLowerCase().includes(debouncedSearch.toLowerCase())));
+          } else {
+            setFilteredItems(items);
+          }
+    }, [debouncedSearch, items])
+
     const contextValue = {
         items,
         cartItems,
@@ -139,6 +160,8 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         openedAsideOrderDetail,
         setOrderDetail,
         orderDetail,
+        search,
+        setSearch
       };
 
     return(
