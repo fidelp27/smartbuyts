@@ -6,9 +6,10 @@ import { ContextApp } from '../../Context'
 import { LayoutAside } from '../../Components/LayoutAside'
 import { ProductDetails } from '../../Components/ProductDetail'
 import { IoSearch } from "react-icons/io5";
+import { SkeletonCard } from '../../Components/Skeleton'
 
 export const Home:React.FC=()=> {
-  const {items, handleOpenAside, productDetail, setSearch, search, filteredItems, filterItems} = useContext(ContextApp);
+  const {items, handleOpenAside, productDetail, setSearch, search, filteredItems, filterItems, isLoading} = useContext(ContextApp);
   const handleSearch = (e:React.ChangeEvent<HTMLInputElement>)=>{
     setSearch(e.target.value);
   }
@@ -29,6 +30,13 @@ export const Home:React.FC=()=> {
           </span>
         </div>
       </div>
+      {isLoading ? (
+        <div className='w-full flex flex-wrap gap-6 justify-center items-center'>
+          {[...Array(8)].map((_, index) => (
+            <SkeletonCard key={index} />
+          ))}
+        </div>
+      ) : 
       <div className='w-full flex flex-wrap gap-6 justify-center items-center' onClick={handleOpenAside}>
         {itemsToRender && itemsToRender.length > 0 && itemsToRender.map((item:ProductProps)=>(
           item.images.length > 0  && !item.images[0].startsWith("[") &&
@@ -42,9 +50,10 @@ export const Home:React.FC=()=> {
               description={item.description}
             />
         ))}
-        {items.length === 0 && <h1 className='text-2xl font-semibold text-slate-800'>No products found</h1>}
-        {filteredItems && filteredItems.length === 0 && <h1 className='text-2xl font-semibold text-slate-800'>No products found</h1>}
+        {!isLoading && items && items.length === 0 && <h1 className='text-2xl font-semibold text-slate-800'>No products found</h1>}
+        {!isLoading && filteredItems && filteredItems.length === 0 && <h1 className='text-2xl font-semibold text-slate-800'>No products found</h1>}
       </div>
+}
       <LayoutAside title="Specifications">
         {productDetail &&
       <ProductDetails 
