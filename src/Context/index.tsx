@@ -26,7 +26,8 @@ const defaultProps : ContextProps = {
     orderDetail: null,
     handleAsideOrderDetail: (order: OrderProps) => {},
     search: "",
-    setSearch: () => {}
+    setSearch: () => {},
+    isLoading: false
 }
 export const ContextApp = createContext<ContextProps>(defaultProps);
 
@@ -41,6 +42,8 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
     const [orders, setOrders] = useState<OrderProps[]>([]);
     const [orderDetail, setOrderDetail] = useState<OrderProps | null>(null);
     const [search, setSearch] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    
     
     // Cart logic
     const addToCart = (item: CartProps) => {
@@ -115,22 +118,25 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
 
     // products logic
     useEffect(() => {
-        const getData = async () => {
+        setIsLoading(true);
+        const getData = async () => {            
             try{
                 const response = await fetch("https://api.escuelajs.co/api/v1/products");
                 if(!response.ok){
                 throw new Error("We can't get data from the server");
                 }
                 const data:ProductProps[] = await response.json();
-                setItems(data);                                
+                setItems(data);
             }catch(error){
                 console.error(error);
+            }finally{
+                setIsLoading(false);
             }
         }
         getData();
     },[])
 
-    useEffect(() => {
+    useEffect(() => {        
         if (debouncedSearch.length > 0) {
             setFilteredItems(items.filter(item => item.title.toLowerCase().includes(debouncedSearch.toLowerCase())));
           } else {
@@ -161,7 +167,8 @@ export const ContextAppProvider:React.FC<ChildrenProps> = ({ children }) => {
         setOrderDetail,
         orderDetail,
         search,
-        setSearch
+        setSearch,
+        isLoading
       };
 
     return(

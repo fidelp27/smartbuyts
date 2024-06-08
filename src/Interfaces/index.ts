@@ -70,6 +70,7 @@ export interface ContextProps{
     handleAsideOrderDetail: (order: OrderProps) => void;
     search: string;
     setSearch: (value: string) => void;
+    isLoading: boolean;
 }
 
 export interface CartItemsProps{
