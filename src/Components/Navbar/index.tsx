@@ -2,14 +2,14 @@ import React, {useContext} from "react";
 import { TiShoppingCart } from "react-icons/ti"
 import { NavLink } from "react-router-dom";
 import { NavRoute } from "../../Interfaces";
-import {ContextApp} from "../../Context"
+import { ContextApp } from "../../Context"
 
 const navRoutes: NavRoute[] = [
   { path: "/", label: "SmartBuy" },
   { path: "/all", label: "All" },
   { path: "/clothes", label: "Clothes" },
   { path: "/electronics", label: "Electronics" },
-  { path: "/furnitures", label: "Furnitures" },
+  { path: "/furniture", label: "Furniture" },
   { path: "/others", label: "Others" }
 ];
 
@@ -21,7 +21,7 @@ const userRoutes: NavRoute[] = [
 
 export const NavBar: React.FC = () => {
   const activeStyle = "underline";
-  const { totalItemsCart, cartItems, handleOpenAsideCart } = useContext(ContextApp);
+  const { totalItemsCart, cartItems, handleOpenAsideCart, filterItems } = useContext(ContextApp);
   const totalItems = totalItemsCart(cartItems);
 
   return (
@@ -29,7 +29,7 @@ export const NavBar: React.FC = () => {
       <ul className="flex items-center gap-3">
         {navRoutes.map((route) => (
           <li key={route.label} className="font-semibold first:font-bold first:text-lg text-sm">
-            <NavLink to={route.path} className={({ isActive }) => (isActive ? activeStyle : "")}>
+            <NavLink to={route.path} className={({ isActive }) => (isActive ? activeStyle : "")} onClick={()=> filterItems && filterItems(route.label ==="SmartBuy" || route.label ==="All" ? "" : route.label)}>
               {route.label}
             </NavLink>
           </li>
@@ -57,4 +57,3 @@ export const NavBar: React.FC = () => {
   );
 };
 
-export default NavBar;
